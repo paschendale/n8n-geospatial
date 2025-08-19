@@ -112,6 +112,28 @@ docker-compose logs n8n
 docker exec -it n8n-geospatial bash
 ```
 
+## Upgrading
+
+### n8n
+```dockerfile
+# In Dockerfile, line 35
+RUN npm install -g n8n@1.107.3  # Change version here
+```
+
+### QGIS  
+```dockerfile
+# In Dockerfile, lines 1 and 37
+FROM qgis/qgis:3.44.2-bookworm AS builder  # Change version here
+FROM qgis/qgis:3.44.2-bookworm             # And here
+```
+
+### Rebuild
+```bash
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+```
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
