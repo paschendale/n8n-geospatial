@@ -42,9 +42,8 @@ jobs:
           platforms: linux/amd64
           push: false
           tags: paschendale/n8n-geospatial:test
-          cache-from: |
-            type=registry,ref=paschendale/n8n-geospatial:buildcache
-            type=gha
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Start container for testing
         run: |
