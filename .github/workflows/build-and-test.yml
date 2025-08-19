@@ -45,9 +45,6 @@ jobs:
           cache-from: |
             type=registry,ref=paschendale/n8n-geospatial:buildcache
             type=gha
-          cache-to: |
-            type=gha,mode=max
-            type=registry,ref=paschendale/n8n-geospatial:buildcache,mode=max
 
       - name: Start container for testing
         run: |
