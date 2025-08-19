@@ -1,6 +1,8 @@
 services:
   n8n:
+    container_name: n8n
     image: paschendale/n8n-geospatial
+    platform: linux/amd64
     build:
       context: .
       dockerfile: Dockerfile
