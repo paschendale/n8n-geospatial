@@ -1,0 +1,10 @@
+services:
+  n8n:
+    image: paschendale/n8n-geospatial
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5678:5678
+    volumes:
+      - ./n8n-data:/home/node/.n8n
