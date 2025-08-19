@@ -21,16 +21,16 @@ RUN apt-get update && \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
     bash /tmp/miniconda.sh -b -p /opt/conda 
 
-# Add conda to PATH
-ENV PATH="/opt/conda/bin:$PATH"
-
 # Accept Conda ToS
-RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
-    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r 
+RUN /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r 
 
 # Install PDAL
-RUN conda install -c conda-forge pdal python-pdal -y && \
-    conda clean -afy
+RUN /opt/conda/bin/conda install -c conda-forge pdal python-pdal -y && \
+    /opt/conda/bin/conda clean -afy
+
+# Expose only the PDAL CLI, not Conda's Python
+RUN ln -s /opt/conda/bin/pdal /usr/local/bin/pdal
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
@@ -38,13 +38,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 
 # Install n8n globally - update versions as needed
 RUN npm install -g n8n@1.107.3
-
-# Start with a new clean image and copy over the added files into a single layer
-FROM qgis/qgis:3.44.2-bookworm
-COPY --from=builder / /
-
-# Add conda to PATH in the final stage
-ENV PATH="/opt/conda/bin:$PATH"
 
 EXPOSE 5678/tcp
 
