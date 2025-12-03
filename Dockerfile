@@ -37,7 +37,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
 # Install n8n globally - update versions as needed
-RUN npm install -g n8n@1.107.3
+RUN npm install -g n8n@1.123.0
 
 EXPOSE 5678/tcp
 
