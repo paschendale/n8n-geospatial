@@ -77,6 +77,14 @@ jobs:
           # This is not available, but isnt needed for now. If the need arises, we can install PDAL via pip
           # docker exec n8n-test python3 -c "import pdal; print('PDAL Python bindings working')"
 
+      - name: Test tippecanoe accessibility
+        run: |
+          docker exec n8n-test tippecanoe --version
+
+      - name: Test MinIO Client accessibility
+        run: |
+          docker exec n8n-test mc --version
+
       - name: Cleanup
         if: always()
         run: |

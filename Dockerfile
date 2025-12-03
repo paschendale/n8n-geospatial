@@ -32,6 +32,27 @@ RUN /opt/conda/bin/conda install -c conda-forge pdal python-pdal -y && \
 # Expose only the PDAL CLI, not Conda's Python
 RUN ln -s /opt/conda/bin/pdal /usr/local/bin/pdal
 
+# Install MinIO Client
+RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc \
+  -o /usr/local/bin/mc && \
+  chmod +x /usr/local/bin/mc
+
+# Install tippecanoe
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        libsqlite3-dev \
+        zlib1g-dev && \
+    git clone https://github.com/mapbox/tippecanoe.git /tmp/tippecanoe && \
+    cd /tmp/tippecanoe && \
+    make -j && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/tippecanoe && \
+    apt-get remove -y build-essential && \
+    apt-get autoremove -y && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs

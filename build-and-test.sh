@@ -145,6 +145,28 @@ fi
 #     exit 1
 # fi
 
+# Test tippecanoe accessibility
+print_status "Testing tippecanoe accessibility..."
+if docker exec $CONTAINER_NAME tippecanoe --version; then
+    print_success "tippecanoe is accessible"
+else
+    print_error "tippecanoe is not accessible"
+    docker stop $CONTAINER_NAME
+    docker rm $CONTAINER_NAME
+    exit 1
+fi
+
+# Test MinIO Client accessibility
+print_status "Testing MinIO Client accessibility..."
+if docker exec $CONTAINER_NAME mc --version; then
+    print_success "MinIO Client is accessible"
+else
+    print_error "MinIO Client is not accessible"
+    docker stop $CONTAINER_NAME
+    docker rm $CONTAINER_NAME
+    exit 1
+fi
+
 # Cleanup
 print_status "Cleaning up test container..."
 docker stop $CONTAINER_NAME

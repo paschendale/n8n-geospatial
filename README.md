@@ -1,13 +1,15 @@
 # n8n-geospatial
 
-n8n workflow automation platform enhanced with comprehensive geospatial capabilities including QGIS, GDAL, and PDAL.
+n8n workflow automation platform enhanced with comprehensive geospatial capabilities including QGIS, GDAL, PDAL, and Tippecanoe.
 
 ## Features
 
-- **n8n 1.107.3** - Workflow automation platform
+- **n8n 1.123.0** - Workflow automation platform
 - **QGIS 3.44.2** - Geographic Information System with Python bindings
 - **GDAL** - Geospatial Data Abstraction Library for raster/vector data
 - **PDAL** - Point Data Abstraction Library for LiDAR/point cloud processing
+- **Tippecanoe** - Build vector tilesets from large collections of GeoJSON features
+- **MinIO Client** - High-performance object storage client
 - **GraphicsMagick** - Image processing capabilities
 - **Node.js 20.x** - JavaScript runtime
 
@@ -57,6 +59,20 @@ docker run -d \
 - LiDAR data manipulation
 - Python bindings for workflow integration
 
+### Tippecanoe
+- Build vector tilesets from large collections of GeoJSON features
+- Command-line tools: `tippecanoe`, `tile-join`, `tippecanoe-enumerate`, `tippecanoe-decode`
+- Optimize GeoJSON data for web mapping applications
+- Create efficient MBTiles for Mapbox, MapLibre, and other tile servers
+
+## Other utilities
+
+### MinIO Client
+- High-performance object storage client (`mc`)
+- S3-compatible API for object storage operations
+- Manage buckets, objects, and policies
+- Useful for storing and retrieving geospatial data files
+
 ## Example Workflows
 
 ### 1. Geospatial Data Processing
@@ -85,6 +101,35 @@ pipeline = pdal.Pipeline("pipeline.json")
 pipeline.execute()
 ```
 
+### 4. Vector Tile Generation
+```bash
+# In n8n Execute Command node
+# Convert GeoJSON to vector tiles
+tippecanoe -o output.mbtiles input.geojson
+
+# Join attributes from CSV to existing tiles
+tile-join -o joined.mbtiles -c attributes.csv existing.mbtiles
+
+# Decode tiles back to GeoJSON
+tippecanoe-decode output.mbtiles
+```
+
+### 5. Object Storage Operations
+```bash
+# In n8n Execute Command node
+# Configure MinIO client
+mc alias set myminio https://minio.example.com ACCESS_KEY SECRET_KEY
+
+# Upload geospatial data
+mc cp data.geojson myminio/geospatial-bucket/
+
+# Download data
+mc cp myminio/geospatial-bucket/data.geojson ./
+
+# List objects
+mc ls myminio/geospatial-bucket/
+```
+
 ## Development
 
 ### Building Locally
@@ -102,6 +147,8 @@ The automated workflow tests:
 - n8n web interface accessibility
 - GDAL command-line tools and Python bindings
 - PDAL command-line tools and Python bindings
+- Tippecanoe command-line tools
+- MinIO Client accessibility
 
 ### Logs
 ```bash
@@ -116,8 +163,8 @@ docker exec -it n8n-geospatial bash
 
 ### n8n
 ```dockerfile
-# In Dockerfile, line 35
-RUN npm install -g n8n@1.107.3  # Change version here
+# In Dockerfile, line 61
+RUN npm install -g n8n@1.123.0  # Change version here
 ```
 
 ### QGIS  
