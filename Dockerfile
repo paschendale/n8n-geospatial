@@ -14,7 +14,7 @@ RUN apt-get update && \
         jq \
         curl \
         libc6 \
-        libjpeg62-turbo && \
+        libjpeg62 libpng-dev libtiff-dev libjpeg-dev libz-dev libproj-dev liblzma-dev libjbig-dev libzstd-dev libgeotiff-dev libwebp-dev liblzma-dev && \
     fc-cache -f && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
