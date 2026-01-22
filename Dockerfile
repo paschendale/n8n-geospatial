@@ -13,10 +13,7 @@ RUN apt-get update && \
         ca-certificates \
         jq \
         curl \
-        libc6 \
-        libjpeg62 libpng-dev libtiff-dev libjpeg-dev libz-dev libproj-dev liblzma-dev libjbig-dev libzstd-dev libgeotiff-dev libwebp-dev liblzma-dev && \
-    fc-cache -f && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+        libc6 
 
 # Install Miniconda and PDAL
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
@@ -59,6 +56,25 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
 # Install lastools
+RUN apt-get install -y --no-install-recommends \
+        libjpeg62 \
+        libpng-dev \
+        libtiff-dev \
+        libjpeg-dev \
+        libz-dev \
+        libproj-dev \
+        liblzma-dev \
+        libjbig-dev \
+        libzstd-dev \
+        libgeotiff-dev \
+        libwebp-dev \
+        liblzma-dev && \
+    fc-cache -f && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+## For some reason libjpeg62 is not installed by default, so we need to create a symlink
+RUN ln -s /usr/local/bin/lib/libjpeg.so.62 /usr/lib/libjpeg.so.62
+
 RUN curl -fsSL https://downloads.rapidlasso.de/LAStools.tar.gz -o /tmp/LAStools.tar.gz && \
     mkdir -p /tmp/LAStools && \
     tar -xzf /tmp/LAStools.tar.gz -C /tmp/LAStools && \
