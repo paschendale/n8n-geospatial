@@ -1,5 +1,5 @@
 # 1. Use a builder step to download various dependencies
-FROM qgis/qgis:3.44.2-bookworm AS builder
+FROM qgis/qgis:3.44.7-noble AS builder
 
 # Install fonts
 RUN apt-get update && \
