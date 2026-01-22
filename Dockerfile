@@ -13,7 +13,7 @@ RUN apt-get update && \
         ca-certificates \
         jq \
         curl \
-        libc6 && \
+        libc6 \
         libjpeg62-turbo && \
     fc-cache -f && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
