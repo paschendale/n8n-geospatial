@@ -167,6 +167,17 @@ else
     exit 1
 fi
 
+# Test lastools accessibility
+print_status "Testing lastools accessibility..."
+if docker exec $CONTAINER_NAME lastools --version; then
+    print_success "lastools is accessible"
+else
+    print_error "lastools is not accessible"
+    docker stop $CONTAINER_NAME
+    docker rm $CONTAINER_NAME
+    exit 1
+fi
+
 # Cleanup
 print_status "Cleaning up test container..."
 docker stop $CONTAINER_NAME

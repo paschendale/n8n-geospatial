@@ -61,6 +61,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 
 # Install lastools
 RUN curl -fsSL https://downloads.rapidlasso.de/LAStools.tar.gz -o /tmp/LAStools.tar.gz && \
+    mkdir -p /tmp/LAStools && \
     tar -xzf /tmp/LAStools.tar.gz -C /tmp/LAStools && \
     mv /tmp/LAStools/bin/* /usr/local/bin/ && \
     rm -rf /tmp/LAStools.tar.gz && \
