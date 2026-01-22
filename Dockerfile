@@ -34,8 +34,10 @@ RUN ln -s /opt/conda/bin/pdal /usr/local/bin/pdal
 
 # Install MinIO Client
 RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc \
-  -o /usr/local/bin/mc && \
-  chmod +x /usr/local/bin/mc
+  --create-dirs \
+  -o $HOME/minio-binaries/mc && \
+  chmod +x $HOME/minio-binaries/mc && \
+  export PATH=$PATH:$HOME/minio-binaries/
 
 # Install tippecanoe
 RUN apt-get update && \
