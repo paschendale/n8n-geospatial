@@ -85,6 +85,10 @@ jobs:
         run: |
           docker exec n8n-test mc --version
 
+      - name: Test lastools accessibility
+        run: |
+          docker exec n8n-test lasinfo --version
+
       - name: Cleanup
         if: always()
         run: |
