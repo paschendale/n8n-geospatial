@@ -57,6 +57,13 @@ RUN apt-get update && \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
+# Install lastools
+RUN curl -fsSL https://downloads.rapidlasso.de/LAStools.tar.gz -o /tmp/LAStools.tar.gz && \
+    tar -xzf /tmp/LAStools.tar.gz -C /tmp/LAStools && \
+    mv /tmp/LAStools/bin/* /usr/local/bin/ && \
+    rm -rf /tmp/LAStools.tar.gz && \
+    rm -rf /tmp/LAStools
+
 # Install n8n globally - update versions as needed
 RUN npm install -g n8n@1.123.0
 
